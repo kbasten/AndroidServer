@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 
 public class Log extends JTextArea {
+	private static final long serialVersionUID = 1L;
 	private static String LINE_BREAK = "\n";
 
 	public Log() {

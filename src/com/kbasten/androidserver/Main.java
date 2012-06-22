@@ -13,6 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
@@ -56,11 +57,7 @@ public class Main {
 		clientWrap.setBorder(BorderFactory.createTitledBorder(brd, "Connected clients"));
 		clientWrap.setPreferredSize(new Dimension(180, 300));
 
-		// client list
-
-		clientList.addElement("fdsa");
-		clientList.addElement("fdsgfd");
-
+		// client list=
 		JList<String> cl = new JList<String>(clientList);
 
 		cl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -99,7 +96,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
 			}

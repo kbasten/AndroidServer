@@ -30,8 +30,7 @@ public class ServerThread implements Runnable {
 
 			l.msg("Client thread terminated.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			l.msg("Couldn't get streams for client.");
 		}
 	}
 
