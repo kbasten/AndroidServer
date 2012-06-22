@@ -36,7 +36,7 @@ public class ServerThread extends Thread {
 		try {
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.equals("dc")) { // disconnect request
-					l.msg("Received exit packet from client: " + clientSocket.getPort());
+					l.msg("Received exit packet from client '" + clientSocket.getPort() + "'");
 					in.close();
 					out.close();
 					return;

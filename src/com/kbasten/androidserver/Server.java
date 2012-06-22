@@ -16,7 +16,7 @@ public class Server {
 
 	private ServerSocket ssocket = null;
 
-	private HashMap<String, Socket> connClients = new HashMap<String, Socket>();
+	private HashMap<Integer, Socket> connClients = new HashMap<Integer, Socket>();
 
 	public Server(Log l, int port) {
 		this.l = l;
@@ -46,15 +46,15 @@ public class Server {
 
 		while (listening) {
 			try {
-				l.msg("now accepting connections...");
+				l.msg("Now accepting connections...");
 				Socket clientSocket = ssocket.accept();
 
-				String socketId = clientSocket.toString();
-				if (connClients.containsKey(socketId)) {
-					l.msg("Client already connected, connection refused.");
+				int clientId = clientSocket.getPort();
+				if (connClients.containsKey(clientId)) {
+					l.msg("Client '" + clientId + "' already connected, connection refused.");
 				} else {
-					l.msg("New client from port: " + clientSocket.getPort());
-					connClients.put(socketId, clientSocket);
+					l.msg("New client: '" + clientSocket.getPort() + "'");
+					connClients.put(clientId, clientSocket);
 
 					new ServerThread(clientSocket, l, cp).start();
 				}
