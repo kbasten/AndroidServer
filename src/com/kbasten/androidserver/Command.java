@@ -4,27 +4,27 @@ public class Command {
 	private String location;
 	private int minArguments;
 	private String msg;
-	
-	public Command(String location, int minArguments){
+
+	public Command(String location, int minArguments) {
 		this(location, minArguments, "");
 	}
-	
-	public Command(String location, int minArguments, String msg){
+
+	public Command(String location, int minArguments, String msg) {
 		// optional msg argument
 		this.location = location;
 		this.minArguments = minArguments;
 		this.msg = msg;
 	}
-	
-	public int getMinArguments(){
+
+	public int getMinArguments() {
 		return this.minArguments;
 	}
-	
-	public String getLocation(){
+
+	public String getLocation() {
 		return this.location;
 	}
-	
-	public String getMsg(){
+
+	public String getMsg() {
 		return this.msg;
 	}
 }

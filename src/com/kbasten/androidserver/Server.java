@@ -9,28 +9,28 @@ import java.util.HashMap;
 public class Server {
 	private CommandParser cp;
 	private Log l;
-	
+
 	private int port;
 	private boolean listening = false; // listen for incoming connections
 
 	private HashMap<String, Socket> connClients = new HashMap<String, Socket>();
-	
-	public Server(Log l, int port){
+
+	public Server(Log l, int port) {
 		this.l = l;
 		this.listening = true;
-		
+
 		this.port = port;
 	}
-	
+
 	public void startServer() throws IOException, InterruptedException {
-		l.msg("Starting server...");	
+		l.msg("Starting server...");
 		// prepare commandparser
 		cp = new CommandParser();
-		
+
 		ServerSocket ssocket = null;
 		try {
 			InetSocketAddress isa = new InetSocketAddress(port);
-			
+
 			ssocket = new ServerSocket();
 			ssocket.setReuseAddress(true);
 			ssocket.bind(isa);
@@ -40,18 +40,18 @@ public class Server {
 			l.msg(e.getMessage());
 			return;
 		}
-		
-		while (listening){
+
+		while (listening) {
 			try {
 				Socket clientSocket = ssocket.accept();
 
 				String socketId = clientSocket.toString();
-				if (connClients.containsKey(socketId)){
+				if (connClients.containsKey(socketId)) {
 					l.msg("Client already connected, connection refused.");
-				} else {				
+				} else {
 					l.msg("New client: " + clientSocket.toString());
 					connClients.put(socketId, clientSocket);
-					
+
 					ServerThread st = new ServerThread(clientSocket, l, cp);
 					Thread t = new Thread(st);
 					t.start();
@@ -62,7 +62,7 @@ public class Server {
 		}
 
 		ssocket.close();
-		
+
 		l.msg("Closing server");
 	}
 }

@@ -12,22 +12,22 @@ public class ServerThread implements Runnable {
 	private PrintWriter out;
 	private BufferedReader in;
 	private String inputLine;
-	
+
 	public ServerThread(Socket clientSocket, Log l, CommandParser cp) {
 		this.l = l;
 		this.cp = cp;
-		
+
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			
+
 			l.msg("Client connected.");
-			
+
 			run();
-			
+
 			out.close();
 			in.close();
-			
+
 			l.msg("Client thread terminated.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -39,8 +39,8 @@ public class ServerThread implements Runnable {
 	public void run() {
 		try {
 			while ((inputLine = in.readLine()) != null) {
-				if (inputLine.equals("dc")){ // disconnect request
-					l.msg("Client: received exit packet");		
+				if (inputLine.equals("dc")) { // disconnect request
+					l.msg("Client: received exit packet");
 					return;
 				} else {
 					try {
@@ -48,7 +48,7 @@ public class ServerThread implements Runnable {
 					} catch (CommandLineException e) {
 						l.msg(e.getMessage());
 					}
-				}				
+				}
 			}
 		} catch (IOException e) {
 			l.msg("Client disconnected: " + e.getMessage());
