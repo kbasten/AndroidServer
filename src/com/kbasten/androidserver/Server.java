@@ -11,7 +11,10 @@ public class Server {
 	private Log l;
 
 	private int port;
+	private boolean isRunning = false;
 	private boolean listening = false; // listen for incoming connections
+
+	private ServerSocket ssocket = null;
 
 	private HashMap<String, Socket> connClients = new HashMap<String, Socket>();
 
@@ -27,7 +30,6 @@ public class Server {
 		// prepare commandparser
 		cp = new CommandParser();
 
-		ServerSocket ssocket = null;
 		try {
 			InetSocketAddress isa = new InetSocketAddress(port);
 
@@ -35,6 +37,7 @@ public class Server {
 			ssocket.setReuseAddress(true);
 			ssocket.bind(isa);
 			l.msg("Listening on port " + port);
+			isRunning = true;
 		} catch (IOException e) {
 			l.msg("Could not listen on port: " + port);
 			l.msg(e.getMessage());
@@ -64,5 +67,19 @@ public class Server {
 		ssocket.close();
 
 		l.msg("Closing server");
+		isRunning = false;
+	}
+
+	public void stopRunning() {
+		this.listening = false;
+		try {
+			ssocket.close();
+		} catch (IOException e) {
+		}
+		this.isRunning = false;
+	}
+
+	public boolean isRunning() {
+		return this.isRunning;
 	}
 }

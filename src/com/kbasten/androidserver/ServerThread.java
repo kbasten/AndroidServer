@@ -39,7 +39,7 @@ public class ServerThread implements Runnable {
 		try {
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.equals("dc")) { // disconnect request
-					l.msg("Client: received exit packet");
+					l.msg("Received exit packet");
 					return;
 				} else {
 					try {

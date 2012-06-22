@@ -43,8 +43,6 @@ public class CommandParser {
 
 		String arguments = arg.toString(); // empty if no arguments
 
-		System.out.println("Arguments:" + arguments);
-
 		// execute command
 		rt.exec(action.getLocation() + arguments);
 		return command + " " + action.getMsg();

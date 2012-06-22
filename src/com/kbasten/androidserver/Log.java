@@ -1,6 +1,5 @@
 package com.kbasten.androidserver;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DateFormat;
@@ -15,10 +14,9 @@ public class Log extends JTextArea {
 	private static String LINE_BREAK = "\n";
 
 	public Log() {
-		setPreferredSize(new Dimension(270, 220));
+		setPreferredSize(new Dimension(570, 320));
 		setBorder(BorderFactory.createLoweredBevelBorder());
 		setFont(new Font("Courier New", Font.PLAIN, 12));
-		setBackground(Color.white);
 		setEditable(false);
 	}
 
