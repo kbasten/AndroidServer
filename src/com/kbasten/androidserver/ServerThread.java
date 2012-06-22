@@ -6,29 +6,26 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ServerThread implements Runnable {
+public class ServerThread extends Thread {
 	private CommandParser cp;
 	private Log l;
 	private PrintWriter out;
 	private BufferedReader in;
 	private String inputLine;
 
-	public ServerThread(Socket clientSocket, Log l, CommandParser cp) {
+	private Socket clientSocket;
+
+	public ServerThread(Socket cs, Log l, CommandParser cp) {
 		this.l = l;
 		this.cp = cp;
+
+		this.clientSocket = cs;
 
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 			l.msg("Client connected.");
-
-			run();
-
-			out.close();
-			in.close();
-
-			l.msg("Client thread terminated.");
 		} catch (IOException e) {
 			l.msg("Couldn't get streams for client.");
 		}
@@ -39,7 +36,9 @@ public class ServerThread implements Runnable {
 		try {
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.equals("dc")) { // disconnect request
-					l.msg("Received exit packet");
+					l.msg("Received exit packet from client: " + clientSocket.getPort());
+					in.close();
+					out.close();
 					return;
 				} else {
 					try {
@@ -51,6 +50,12 @@ public class ServerThread implements Runnable {
 			}
 		} catch (IOException e) {
 			l.msg("Client disconnected: " + e.getMessage());
+			try {
+				in.close();
+				out.close();
+			} catch (IOException e1) {
+				l.msg("Couldn't close BufferedReader.");
+			}
 		}
 	}
 }

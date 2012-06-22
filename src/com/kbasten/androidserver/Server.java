@@ -46,18 +46,17 @@ public class Server {
 
 		while (listening) {
 			try {
+				l.msg("now accepting connections...");
 				Socket clientSocket = ssocket.accept();
 
 				String socketId = clientSocket.toString();
 				if (connClients.containsKey(socketId)) {
 					l.msg("Client already connected, connection refused.");
 				} else {
-					l.msg("New client: " + clientSocket.toString());
+					l.msg("New client from port: " + clientSocket.getPort());
 					connClients.put(socketId, clientSocket);
 
-					ServerThread st = new ServerThread(clientSocket, l, cp);
-					Thread t = new Thread(st);
-					t.start();
+					new ServerThread(clientSocket, l, cp).start();
 				}
 			} catch (IOException e) {
 				l.msg("Accept failed.");
